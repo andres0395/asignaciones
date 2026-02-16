@@ -1,0 +1,14 @@
+export interface JWTPayload {
+  userId: string;
+  role?: string;
+  iat?: number;
+  exp?: number;
+}
+
+export interface UserProfile {
+  id: string;
+  fullName: string;
+  email: string;
+  role: string;
+  createdAt: string;
+}

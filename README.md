@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Authentication System
 
-## Getting Started
+A complete authentication system for Next.js implementing JWT authentication (access & refresh tokens), role-based access control, and atomic design architecture.
 
-First, run the development server:
+## Features
+
+- **Secure Authentication**: 
+  - Login with Access Token (15 min) and Refresh Token (7 days, HttpOnly Cookie).
+  - Password hashing with Bcrypt.
+  - Automatic token renewal.
+  - Middleware protection for API and Pages.
+- **Frontend Architecture**:
+  - Atomic Design (Atoms, Molecules, Organisms, Templates).
+  - Tailwind CSS styling with dark mode support.
+  - Responsive layout.
+- **Backend API**:
+  - RESTful endpoints for Auth (Register, Login, Refresh, Logout, Me).
+  - User management (Admin only).
+  - Prisma ORM with PostgreSQL.
+
+## Prerequisites
+
+- Node.js (v18+)
+- PostgreSQL Database
+
+## Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone <repo-url>
+   cd asignaciones
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+   > Note: We use Prisma 6 for stability.
+
+3. **Configure Environment Variables**:
+   Create a `.env` file in the root directory:
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/asignaciones?schema=public"
+   JWT_SECRET="your-super-secret-access-key"
+   REFRESH_TOKEN_SECRET="your-super-secret-refresh-key"
+   ```
+
+4. **Setup Database**:
+   ```bash
+   npx prisma generate
+   npx prisma migrate dev --name init
+   ```
+
+## Running the App
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Documentation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Auth
 
-## Learn More
+- `POST /api/auth/register`: Register a new user.
+  - Body: `{ fullName, email, password, phone, role? }`
+- `POST /api/auth/login`: login.
+  - Body: `{ email, password }`
+- `POST /api/auth/refresh`: Refresh access token (requires `refreshToken` cookie).
+- `POST /api/auth/logout`: Logout.
+- `GET /api/auth/me`: Get current user profile.
 
-To learn more about Next.js, take a look at the following resources:
+### Users
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `GET /api/users`: List users (Admin only).
+  - Query: `page`, `limit`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Testing
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Run unit tests:
+```bash
+npm test
+```
