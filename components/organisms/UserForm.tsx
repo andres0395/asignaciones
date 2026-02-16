@@ -82,7 +82,7 @@ export const UserForm = ({ onSuccess, redirectTo = '/login', initialData, isEdit
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md space-y-4">
       <FormField
-        label="Full Name"
+        label="Nombre completo"
         id="fullName"
         placeholder="John Doe"
         error={errors.fullName?.message as string}
@@ -97,21 +97,21 @@ export const UserForm = ({ onSuccess, redirectTo = '/login', initialData, isEdit
         {...register('email')}
       />
       <FormField
-        label="Phone"
+        label="Telefono"
         id="phone"
         placeholder="+1234567890"
         error={errors.phone?.message as string}
         {...register('phone')}
       />
       <PasswordField
-        label={isEditMode ? "New Password (Optional)" : "Password"}
+        label={isEditMode ? "Contraseña (Opcional)" : "Contraseña"}
         id="password"
         placeholder="••••••••"
         error={errors.password?.message as string}
         {...register('password')}
       />
       <PasswordField
-        label={isEditMode ? "Confirm New Password" : "Confirm Password"}
+        label={isEditMode ? "Confirmar contraseña (Opcional)" : "Confirmar contraseña"}
         id="confirmPassword"
         placeholder="••••••••"
         error={errors.confirmPassword?.message as string}
@@ -119,7 +119,7 @@ export const UserForm = ({ onSuccess, redirectTo = '/login', initialData, isEdit
       />
       <div className="pt-2">
         <Button type="submit" isLoading={isLoadingAuth || isSubmitting}>
-          {isEditMode ? 'Update User' : 'Create Account'}
+          {isEditMode ? 'Actualizar usuario' : 'Crear cuenta'}
         </Button>
       </div>
       {serverError && <div className="text-red-500 text-sm text-center mt-2">{serverError}</div>}

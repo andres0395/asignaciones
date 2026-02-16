@@ -15,9 +15,9 @@ export const Sidebar = ({ user }: SidebarProps) => {
   const isActive = (path: string) => router.pathname === path;
 
   const links = [
-    { href: '/dashboard', label: 'My Account', roles: ['admin', 'viewer'] },
-    { href: '/admin/users', label: 'Users', roles: ['admin'] },
-    { href: '/admin/create-user', label: 'Create User', roles: ['admin'] },
+    { href: '/dashboard', label: 'Dashboard', roles: ['admin', 'viewer'] },
+    { href: '/admin/users', label: 'Usuarios', roles: ['admin'] },
+    { href: '/admin/create-user', label: 'Crear Usuario', roles: ['admin'] },
   ];
 
   const filteredLinks = links.filter(link =>
@@ -27,7 +27,7 @@ export const Sidebar = ({ user }: SidebarProps) => {
   return (
     <aside className="w-64 bg-white dark:bg-neutral-800 border-r border-gray-200 dark:border-neutral-700 hidden md:flex flex-col h-screen sticky top-0">
       <div className="p-6 border-b border-gray-200 dark:border-neutral-700">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">My App</h1>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white">Asignaciones</h1>
         {user && (
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 truncate">
             {user.fullName}
@@ -52,7 +52,7 @@ export const Sidebar = ({ user }: SidebarProps) => {
 
       <div className="p-4 border-t border-gray-200 dark:border-neutral-700">
         <Button variant="secondary" onClick={logout} className="w-full justify-center">
-          Logout
+          Cerrar sesión
         </Button>
       </div>
     </aside>

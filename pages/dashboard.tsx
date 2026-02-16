@@ -23,39 +23,39 @@ export default function DashboardPage({ userInitial }: DashboardProps) {
   }, [user, isLoading, router, userInitial]);
 
   if (isLoading && !userInitial) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">Cargando...</div>;
   }
 
   return (
     <DashboardLayout user={user || userInitial}>
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">My Profile</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Mi perfil</h2>
 
         <div className="bg-white dark:bg-neutral-800 shadow rounded-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 dark:border-neutral-700">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white">User Information</h3>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Personal details and application role.</p>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Información del usuario</h3>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Detalles personales y rol de la aplicación.</p>
           </div>
 
           <div className="px-6 py-4">
             <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
               <div className="sm:col-span-1">
-                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Full name</dt>
+                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Nombre completo</dt>
                 <dd className="mt-1 text-sm text-gray-900 dark:text-white">{(user || userInitial)?.fullName}</dd>
               </div>
 
               <div className="sm:col-span-1">
-                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Email address</dt>
+                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Correo electrónico</dt>
                 <dd className="mt-1 text-sm text-gray-900 dark:text-white">{(user || userInitial)?.email}</dd>
               </div>
 
               <div className="sm:col-span-1">
-                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Role</dt>
+                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Rol</dt>
                 <dd className="mt-1 text-sm text-gray-900 dark:text-white capitalize">{(user || userInitial)?.role}</dd>
               </div>
 
               <div className="sm:col-span-1">
-                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Joined</dt>
+                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Fecha de registro</dt>
                 <dd className="mt-1 text-sm text-gray-900 dark:text-white">
                   {new Date((user || userInitial)?.createdAt || '').toLocaleDateString()}
                 </dd>

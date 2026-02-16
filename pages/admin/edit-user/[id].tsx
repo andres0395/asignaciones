@@ -33,14 +33,14 @@ export default function AdminEditUserPage() {
     }
   }, [user, isAuthLoading, router]);
 
-  if (isAuthLoading || (user && user.role !== 'admin')) return <div>Verifying access...</div>;
-  if (isUserLoading) return <div>Loading user data...</div>;
-  if (userError) return <div>Error loading user</div>;
+  if (isAuthLoading || (user && user.role !== 'admin')) return <div>Verificando acceso...</div>;
+  if (isUserLoading) return <div>Cargando datos del usuario...</div>;
+  if (userError) return <div>Error cargando usuario</div>;
 
   return (
     <DashboardLayout user={user}>
       <div className="max-w-2xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Edit User</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Editar usuario</h2>
         <div className="bg-white dark:bg-neutral-800 shadow rounded-lg p-6 grid place-items-center">
           {userData && (
             <UserForm

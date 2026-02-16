@@ -57,15 +57,15 @@ export default function AdminUsersPage() {
   };
 
   const columns: Column<UserProfile>[] = [
-    { header: 'Full Name', accessor: 'fullName' },
+    { header: 'Nombre', accessor: 'fullName' },
     { header: 'Email', accessor: 'email' },
-    { header: 'Role', accessor: 'role', className: 'capitalize' },
+    { header: 'Rol', accessor: 'role', className: 'capitalize' },
     {
-      header: 'Joined',
+      header: 'Fecha de creación',
       accessor: (row: UserProfile) => new Date(row.createdAt).toLocaleDateString(),
     },
     {
-      header: 'Actions',
+      header: 'Acciones',
       accessor: (row: UserProfile) => (
         <div className="flex space-x-2">
           <Button
@@ -97,7 +97,7 @@ export default function AdminUsersPage() {
     <DashboardLayout user={user}>
       <div className="bg-white dark:bg-neutral-800 shadow rounded-lg p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">User Management</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Gestion de Usuarios</h2>
           {/* Add Create User button if needed later */}
         </div>
 
@@ -105,14 +105,14 @@ export default function AdminUsersPage() {
           data={users}
           columns={columns}
           isLoading={isUsersLoading}
-          emptyMessage="No users found."
+          emptyMessage="No hay usuarios."
         />
 
         {/* Pagination Controls */}
         {meta && (
           <div className="flex justify-between items-center mt-4">
             <span className="text-sm text-gray-700 dark:text-gray-300">
-              Page {meta.page} of {meta.totalPages} ({meta.total} users)
+              Pagina {meta.page} de {meta.totalPages} ({meta.total} usuarios)
             </span>
             <div className="flex gap-2">
               <Button
@@ -121,7 +121,7 @@ export default function AdminUsersPage() {
                 disabled={page <= 1}
                 className="w-auto"
               >
-                Previous
+                Anterior
               </Button>
               <Button
                 variant="secondary"
@@ -129,7 +129,7 @@ export default function AdminUsersPage() {
                 disabled={page >= meta.totalPages}
                 className="w-auto"
               >
-                Next
+                Siguiente
               </Button>
             </div>
           </div>

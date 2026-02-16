@@ -18,16 +18,16 @@ export default function AdminCreateUserPage() {
   }, [user, isAuthLoading, router]);
 
   if (isAuthLoading || (user && user.role !== 'admin')) {
-    return <div className="flex justify-center items-center min-h-screen">Verifying access...</div>;
+    return <div className="flex justify-center items-center min-h-screen">Verificando acceso...</div>;
   }
 
   return (
     <DashboardLayout user={user}>
       <div className="max-w-2xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Create New User</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Crear nuevo usuario</h2>
         <div className="bg-white dark:bg-neutral-800 shadow rounded-lg p-6 grid place-items-center">
           <UserForm
-            redirectTo="" // Don't redirect to login
+            redirectTo="" // No redirige a login
             onSuccess={() => router.push('/admin/users')}
           />
         </div>

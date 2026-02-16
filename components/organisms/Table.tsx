@@ -14,12 +14,12 @@ export function Table<T extends { id: string | number }>({
   columns,
   onRowClick,
   isLoading,
-  emptyMessage = 'No data available'
+  emptyMessage = 'No hay datos disponibles'
 }: TableProps<T>) {
   if (isLoading) {
     return (
       <div className="w-full h-48 flex items-center justify-center text-gray-500 animate-pulse">
-        Loading data...
+        Cargando datos...
       </div>
     );
   }
