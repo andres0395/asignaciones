@@ -25,7 +25,7 @@ export default function AdminCreateUserPage() {
     <DashboardLayout user={user}>
       <div className="max-w-2xl mx-auto">
         <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Create New User</h2>
-        <div className="bg-white dark:bg-neutral-800 shadow rounded-lg p-6">
+        <div className="bg-white dark:bg-neutral-800 shadow rounded-lg p-6 grid place-items-center">
           <RegisterForm
             redirectTo="" // Don't redirect to login
             onSuccess={() => router.push('/admin/users')}
