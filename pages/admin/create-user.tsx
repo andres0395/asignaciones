@@ -3,7 +3,7 @@ import { DashboardLayout } from '../../components/templates/DashboardLayout';
 import { useAuth } from '../../hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { RegisterForm } from '../../components/organisms/RegisterForm';
+import { UserForm } from '../../components/organisms/UserForm';
 
 export default function AdminCreateUserPage() {
   const { user, isLoading: isAuthLoading } = useAuth();
@@ -26,7 +26,7 @@ export default function AdminCreateUserPage() {
       <div className="max-w-2xl mx-auto">
         <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Create New User</h2>
         <div className="bg-white dark:bg-neutral-800 shadow rounded-lg p-6 grid place-items-center">
-          <RegisterForm
+          <UserForm
             redirectTo="" // Don't redirect to login
             onSuccess={() => router.push('/admin/users')}
           />

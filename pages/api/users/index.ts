@@ -34,8 +34,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         take: limit,
         select: { id: true, fullName: true, email: true, role: true, createdAt: true },
         orderBy: { createdAt: 'desc' },
+        where: {
+          id: {
+            not: payload.userId,
+          },
+        },
       }),
-      prisma.user.count(),
+      prisma.user.count({
+        where: {
+          id: {
+            not: payload.userId,
+          },
+        },
+      }),
     ]);
 
     return res.status(200).json({
