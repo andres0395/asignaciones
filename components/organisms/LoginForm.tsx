@@ -33,7 +33,7 @@ export const LoginForm = () => {
         {...register('email')}
       />
       <PasswordField
-        label="Password"
+        label="Contraseña"
         id="password"
         placeholder="••••••••"
         error={errors.password?.message as string}
@@ -41,10 +41,10 @@ export const LoginForm = () => {
       />
       <div className="pt-2">
         <Button type="submit" isLoading={isLoadingAuth}>
-          Sign In
+          Iniciar sesión
         </Button>
       </div>
-      {error && <div className="text-red-500 text-sm text-center mt-2">{error.message || 'Login failed'}</div>}
+      {error && <div className="text-red-500 text-sm text-center mt-2">{error.message || 'Iniciar sesión fallido'}</div>}
     </form>
   );
 };

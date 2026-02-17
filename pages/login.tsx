@@ -5,13 +5,13 @@ import Link from 'next/link';
 
 export default function LoginPage() {
   return (
-    <AuthLayout title="Sign in to your account">
+    <AuthLayout title="Iniciar sesión">
       <LoginForm />
       <div className="text-center mt-4">
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Don&apos;t have an account?{' '}
+          No tienes una cuenta?{' '}
           <Link href="/register" className="font-medium text-black dark:text-white hover:underline">
-            Register here
+            Registrate aquí
           </Link>
         </p>
       </div>
