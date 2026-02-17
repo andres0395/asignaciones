@@ -12,8 +12,8 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
   ({ label, error, className = '', ...props }, ref) => {
     return (
       <div className={`mb-4 ${className}`}>
-        <Label htmlFor={props.id}>{label}</Label>
-        <Input ref={ref} error={!!error} {...props} />
+        <Label htmlFor={props.id || props.name}>{label}</Label>
+        <Input ref={ref} id={props.id || props.name} error={!!error} {...props} />
         <ErrorMessage>{error}</ErrorMessage>
       </div>
     );

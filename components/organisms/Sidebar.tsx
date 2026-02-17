@@ -16,6 +16,7 @@ export const Sidebar = ({ user }: SidebarProps) => {
 
   const links = [
     { href: '/dashboard', label: 'Dashboard', roles: ['admin', 'viewer'] },
+    { href: '/asignaciones', label: 'Asignaciones', roles: ['admin', 'viewer'] },
     { href: '/admin/users', label: 'Usuarios', roles: ['admin'] },
     { href: '/admin/create-user', label: 'Crear Usuario', roles: ['admin'] },
   ];

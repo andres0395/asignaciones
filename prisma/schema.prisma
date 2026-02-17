@@ -18,6 +18,21 @@ enum Role {
   viewer
 }
 
+enum Month {
+  Enero
+  Febrero
+  Marzo
+  Abril
+  Mayo
+  Junio
+  Julio
+  Agosto
+  Septiembre
+  Octubre
+  Noviembre
+  Diciembre
+}
+
 model User {
   id           String   @id @default(uuid())
   fullName     String
@@ -28,4 +43,109 @@ model User {
   role         Role     @default(viewer)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  
+  // Relations for assignments
+  assignmentsPresident           Asignacion[] @relation("PresidentAssignment")
+  assignmentsPresidentReunion  Asignacion[] @relation("PresidentReunionAssignment")
+  assignmentsLectorReunion       Asignacion[] @relation("LectorReunionAssignment")
+  assignmentsOracionVM           Asignacion[] @relation("OracionVMAssignment")
+  assignmentsOracionPublica      Asignacion[] @relation("OracionPublicaAssignment")
+  
+  // Relations for assignment items
+  tesorosBibliaItems      TesoroBibliaItem[]      @relation("TesoroBibliaEncargado")
+  seamosMejoresItems      SeamosMejoresItem[]      @relation("SeamosMejoresEncargado")
+  nuestraVidaItems        NuestraVidaItem[]        @relation("NuestraVidaEncargado")
+}
+
+model Asignacion {
+  id        String   @id @default(uuid())
+  name      String
+  semana    String
+  month     Month    @default(Enero)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Self-referential relationship for hierarchy
+  parentId  String?
+  parent    Asignacion?  @relation("AssignmentHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Asignacion[] @relation("AssignmentHierarchy")
+  
+  // User assignments
+  presidenteId           String?
+  presidente             User? @relation("PresidentAssignment", fields: [presidenteId], references: [id])
+  
+  presidenteReunionId    String?
+  presidenteReunion      User? @relation("PresidentReunionAssignment", fields: [presidenteReunionId], references: [id])
+  
+  lectorReunionId        String?
+  lectorReunion          User? @relation("LectorReunionAssignment", fields: [lectorReunionId], references: [id])
+  
+  oracionFinalVMId       String?
+  oracionFinalVM         User? @relation("OracionVMAssignment", fields: [oracionFinalVMId], references: [id])
+  
+  oracionFinalPublicaId  String?
+  oracionFinalPublica    User? @relation("OracionPublicaAssignment", fields: [oracionFinalPublicaId], references: [id])
+  
+  // Array relationships
+  tesorosDeLaBiblia TesoroBibliaItem[]
+  seamosMejoresMaestros SeamosMejoresItem[]
+  nuestraVidaCristiana NuestraVidaItem[]
+  
+  @@index([parentId])
+  @@index([presidenteId])
+  @@index([presidenteReunionId])
+  @@index([lectorReunionId])
+  @@index([oracionFinalVMId])
+  @@index([oracionFinalPublicaId])
+}
+
+model TesoroBibliaItem {
+  id        String   @id @default(uuid())
+  name      String
+  minutos   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  asignacionId String
+  asignacion   Asignacion @relation(fields: [asignacionId], references: [id], onDelete: Cascade)
+  
+  encargadoId String?
+  encargado   User? @relation("TesoroBibliaEncargado", fields: [encargadoId], references: [id])
+  
+  @@index([asignacionId])
+  @@index([encargadoId])
+}
+
+model SeamosMejoresItem {
+  id        String   @id @default(uuid())
+  name      String
+  minutos   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  asignacionId String
+  asignacion   Asignacion @relation(fields: [asignacionId], references: [id], onDelete: Cascade)
+  
+  encargadoId String?
+  encargado   User? @relation("SeamosMejoresEncargado", fields: [encargadoId], references: [id])
+  
+  @@index([asignacionId])
+  @@index([encargadoId])
+}
+
+model NuestraVidaItem {
+  id        String   @id @default(uuid())
+  name      String
+  minutos   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  asignacionId String
+  asignacion   Asignacion @relation(fields: [asignacionId], references: [id], onDelete: Cascade)
+  
+  encargadoId String?
+  encargado   User? @relation("NuestraVidaEncargado", fields: [encargadoId], references: [id])
+  
+  @@index([asignacionId])
+  @@index([encargadoId])
 }

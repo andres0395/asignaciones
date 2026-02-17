@@ -8,7 +8,7 @@ async function verifyToken(token: string) {
   try {
     const { payload } = await jwtVerify(token, ACCESS_TOKEN_SECRET);
     return payload;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

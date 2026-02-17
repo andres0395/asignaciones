@@ -13,3 +13,5 @@ export interface UserProfile {
   role: string;
   createdAt: string;
 }
+
+export * from './asignacion';

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:assignments": "node scripts/test-assignments-simple.js",
+    "test": "npm run test:assignments"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -15,6 +17,8 @@
     "cookie": "^1.1.1",
     "jose": "^6.1.3",
     "jsonwebtoken": "^9.0.3",
+    "jspdf": "^4.1.0",
+    "jspdf-autotable": "^5.0.7",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",

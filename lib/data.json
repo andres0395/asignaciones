@@ -1,0 +1,84 @@
+{
+  "id": "1",
+  "name": "Andres Muñoz",
+  "asignaciones": [
+    {
+      "id": "1",
+      "semana": "2-8 DE FEBRERO_ ISAÍAS 30-32 ",
+      "PRESIDENTE:": {
+        "userId": "1",
+        "name": "Andres Muñoz"
+      },
+      "TESOROS_DE_LA_BIBLIA": [
+        {
+          "name": "Busquemos refugio bajo las alas de Jehová",
+          "minutos": 10,
+          "encargado": {
+            "userId": "1",
+            "name": "Andres Muñoz"
+          }
+        },
+        {
+          "name": "Busquemos perlas escondidas",
+          "minutos": 10,
+          "encargado": {
+            "userId": "1",
+            "name": "Andres Muñoz"
+          }
+        }
+      ],
+      "SEAMOS_MEJORES_MAESTROS": [
+        {
+          "name": "Busquemos refugio bajo las alas de Jehová",
+          "minutos": 10,
+          "encargado": {
+            "userId": "1",
+            "name": "Andres Muñoz"
+          }
+        },
+        {
+          "name": "Busquemos perlas escondidas",
+          "minutos": 10,
+          "encargado": {
+            "userId": "1",
+            "name": "Andres Muñoz"
+          }
+        }
+      ],
+      "NUESTRA_VIDA_CRISTIANA": [
+        {
+          "name": "Busquemos refugio bajo las alas de Jehová",
+          "minutos": 10,
+          "encargado": {
+            "userId": "1",
+            "name": "Andres Muñoz"
+          }
+        },
+        {
+          "name": "Busquemos perlas escondidas",
+          "minutos": 10,
+          "encargado": {
+            "userId": "1",
+            "name": "Andres Muñoz"
+          }
+        }
+      ],
+      "ORACION_FINAL_V/M": {
+        "userId": "1",
+        "name": "Andres Muñoz"
+      },
+      "ORACION_FINAL_R/PUBLICA": {
+        "userId": "1",
+        "name": "Andres Muñoz"
+      },
+      "PRESIDENTE_REUNION_PUBLICA": {
+        "userId": "1",
+        "name": "Andres Muñoz"
+      },
+      "LECTOR_REUNION_PUBLICA": {
+        "userId": "1",
+        "name": "Andres Muñoz"
+      }
+    }
+  ]
+}
