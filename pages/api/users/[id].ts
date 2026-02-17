@@ -35,7 +35,44 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } else if (req.method === 'PUT') {
       const { password, ...data } = req.body;
 
-      let updateData = { ...data };
+      // 1. Fetch current user to get current values for composite check
+      const currentUser = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { fullName: true, email: true, phone: true }
+      });
+
+      if (!currentUser) return res.status(404).json({ message: 'User not found' });
+
+      // 2. Prepare new values (trimmed if provided, else keep current)
+      const newName = (typeof data.fullName === 'string' ? data.fullName : currentUser.fullName).trim();
+      const newEmail = (typeof data.email === 'string' ? data.email : currentUser.email).trim();
+      const newPhone = (typeof data.phone === 'string' ? data.phone : currentUser.phone).trim();
+
+      // 3. Check for duplicates (excluding self)
+      const potentialDuplicates = await prisma.user.findMany({
+        where: {
+          email: newEmail,
+          phone: newPhone,
+          id: { not: userId } // Exclude self
+        },
+        select: { fullName: true }
+      });
+
+      const duplicateExists = potentialDuplicates.some(
+        (u) => u.fullName.trim().toLowerCase() === newName.toLowerCase()
+      );
+
+      if (duplicateExists) {
+        return res.status(409).json({ message: 'Usuario con el mismo nombre, email, y telefono ya existe' });
+      }
+
+      let updateData = {
+        ...data,
+        fullName: newName,
+        email: newEmail,
+        phone: newPhone
+      };
+
       if (password) {
         const hashedPassword = await bcrypt.hash(password, 10);
         updateData = { ...updateData, password: hashedPassword };

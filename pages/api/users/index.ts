@@ -23,10 +23,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ message: 'Missing required fields' });
       }
 
-      // Check if user exists
-      const existingUser = await prisma.user.findUnique({ where: { email } });
-      if (existingUser) {
-        return res.status(409).json({ message: 'User already exists' });
+      const trimmedName = fullName.trim();
+      const trimmedEmail = email.trim();
+      const trimmedPhone = phone.trim();
+
+      // Check for composite uniqueness: (Name + Email + Phone)
+      // Since name check is case-insensitive and harder in DB without raw query or specific collation,
+      // we fetch by email AND phone (narrowest set), then check name in code.
+      // If dataset is large, this might need optimization, but for now it's safe.
+      // ACTUALLY: The requirement is:
+      // "no puede haber un usuario con el mismo nombre el mismo e-mail y el mismo número de teléfono"
+      // So if ANY of these differ, it's allowed.
+      // So we find users with matching email AND phone, and then check if ANY of them has matching name.
+
+      const potentialDuplicates = await prisma.user.findMany({
+        where: {
+          email: trimmedEmail,
+          phone: trimmedPhone,
+        },
+      });
+
+      const duplicateExists = potentialDuplicates.some(
+        (u) => u.fullName.trim().toLowerCase() === trimmedName.toLowerCase()
+      );
+
+      if (duplicateExists) {
+        return res.status(409).json({ message: 'Usuario con el mismo nombre, email, y telefono ya existe' });
       }
 
       const { hashPassword } = await import('../../../lib/auth');
@@ -34,10 +56,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const user = await prisma.user.create({
         data: {
-          fullName,
-          email,
+          fullName: trimmedName,
+          email: trimmedEmail,
           password: hashedPassword,
-          phone,
+          phone: trimmedPhone,
           role,
         },
       });

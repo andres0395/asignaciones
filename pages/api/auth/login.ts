@@ -17,13 +17,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const { email, password } = await loginSchema.validate(req.body);
 
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
+    const users = await prisma.user.findMany({ where: { email } });
+    if (users.length === 0) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const isValidPassword = await comparePassword(password, user.password);
-    if (!isValidPassword) {
+    let user = null;
+    for (const u of users) {
+      const isValid = await comparePassword(password, u.password);
+      if (isValid) {
+        user = u;
+        break;
+      }
+    }
+
+    if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 

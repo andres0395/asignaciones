@@ -19,19 +19,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const { fullName, email, password, phone, role } = await registerSchema.validate(req.body);
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) {
-      return res.status(409).json({ message: 'User already exists' });
+    const trimmedName = fullName.trim();
+    const trimmedEmail = email.trim();
+    const trimmedPhone = phone.trim();
+
+    const potentialDuplicates = await prisma.user.findMany({
+      where: {
+        email: trimmedEmail,
+        phone: trimmedPhone,
+      },
+      select: { fullName: true }
+    });
+
+    const duplicateExists = potentialDuplicates.some(
+      (u) => u.fullName.trim().toLowerCase() === trimmedName.toLowerCase()
+    );
+
+    if (duplicateExists) {
+      return res.status(409).json({ message: 'Usuario con el mismo nombre, email, y telefono ya existe' });
     }
 
     const hashedPassword = await hashPassword(password);
 
     const user = await prisma.user.create({
       data: {
-        fullName,
-        email,
+        fullName: trimmedName,
+        email: trimmedEmail,
         password: hashedPassword,
-        phone,
+        phone: trimmedPhone,
         role: role as 'admin' | 'viewer',
       },
     });
