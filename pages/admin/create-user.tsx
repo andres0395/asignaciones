@@ -29,6 +29,7 @@ export default function AdminCreateUserPage() {
           <UserForm
             redirectTo="" // No redirige a login
             onSuccess={() => router.push('/admin/users')}
+            isAdmin={true}
           />
         </div>
       </div>

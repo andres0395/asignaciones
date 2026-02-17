@@ -3,6 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { FormField } from '../molecules/FormField';
 import { PasswordField } from '../molecules/PasswordField';
 import { Button } from '../atoms/Button';
+import { SelectField } from '../molecules/SelectField';
 import * as yup from 'yup';
 import { useState, useEffect } from 'react';
 import { UserProfile } from '../../types';
@@ -12,9 +13,10 @@ interface UserFormProps {
   redirectTo?: string;
   initialData?: Partial<UserProfile>; // For edit mode
   isEditMode?: boolean;
+  isAdmin?: boolean; // New prop to indicate admin context
 }
 
-export const UserForm = ({ onSuccess, redirectTo = '/login', initialData, isEditMode = false }: UserFormProps) => {
+export const UserForm = ({ onSuccess, redirectTo = '/login', initialData, isEditMode = false, isAdmin = false }: UserFormProps) => {
   const { register: registerUser, isLoadingAuth } = useAuth();
   const [serverError, setServerError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,6 +32,7 @@ export const UserForm = ({ onSuccess, redirectTo = '/login', initialData, isEdit
     confirmPassword: isEditMode
       ? yup.string().oneOf([yup.ref('password')], 'Passwords must match')
       : yup.string().oneOf([yup.ref('password')], 'Passwords must match').required('Confirm password is required'),
+    role: isAdmin ? yup.string().oneOf(['admin', 'viewer']).default('viewer') : yup.string(),
   });
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -41,8 +44,11 @@ export const UserForm = ({ onSuccess, redirectTo = '/login', initialData, isEdit
       setValue('fullName', initialData.fullName || '');
       setValue('email', initialData.email || '');
       setValue('phone', initialData.phone || '');
+      if (isAdmin && initialData.role) {
+        setValue('role', initialData.role);
+      }
     }
-  }, [initialData, setValue]);
+  }, [initialData, setValue, isAdmin]);
 
   const onSubmit = async (data: Record<string, unknown>) => {
     setIsSubmitting(true);
@@ -60,8 +66,19 @@ export const UserForm = ({ onSuccess, redirectTo = '/login', initialData, isEdit
           body: JSON.stringify(data),
         });
         if (!res.ok) throw await res.json();
+      } else if (isAdmin) {
+        // Admin Create Logic
+        const res = await fetch(`/api/users`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw await res.json();
       } else {
-        // Create Logic (Reuse register)
+        // Public Register Logic
         await registerUser(data, redirectTo);
       }
 
@@ -103,6 +120,19 @@ export const UserForm = ({ onSuccess, redirectTo = '/login', initialData, isEdit
         error={errors.phone?.message as string}
         {...register('phone')}
       />
+
+      {isAdmin && (
+        <SelectField
+          label="Rol"
+          id="role"
+          error={errors.role?.message as string}
+          {...register('role')}
+        >
+          <option value="viewer">Visitante</option>
+          <option value="admin">Administrador</option>
+        </SelectField>
+      )}
+
       <PasswordField
         label={isEditMode ? "Contraseña (Opcional)" : "Contraseña"}
         id="password"

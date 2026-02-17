@@ -47,6 +47,7 @@ export default function AdminEditUserPage() {
               initialData={userData}
               isEditMode={true}
               onSuccess={() => router.push('/admin/users')}
+              isAdmin={true}
             />
           )}
         </div>
