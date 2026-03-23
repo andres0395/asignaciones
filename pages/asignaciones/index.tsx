@@ -111,7 +111,7 @@ export default function AssignmentsPage() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Assignments</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Asignaciones</h1>
             <Button
               onClick={() => router.push('/asignaciones/create')}
               className="w-full sm:w-auto px-4 py-2"
@@ -127,7 +127,7 @@ export default function AssignmentsPage() {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search assignments..."
+                  placeholder="Buscar asignaciones..."
                 />
               </div>
               <div className="flex space-x-2">
@@ -136,7 +136,7 @@ export default function AssignmentsPage() {
                   variant="secondary"
                   className="w-auto px-6"
                 >
-                  Search
+                  Buscar
                 </Button>
                 {searchTerm && (
                   <Button
@@ -148,7 +148,7 @@ export default function AssignmentsPage() {
                     }}
                     className="w-auto px-6"
                   >
-                    Clear
+                    Limpiar
                   </Button>
                 )}
               </div>

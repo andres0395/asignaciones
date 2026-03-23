@@ -17,22 +17,66 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'GET') {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = Math.min(parseInt(req.query.limit as string) || 20, 50);
+      const forPdf = req.query.forPdf === '1' || req.query.forPdf === 'true';
+      const page = forPdf ? 1 : (parseInt(req.query.page as string) || 1);
+      const limitCap = forPdf ? 200 : 50;
+      const limit = Math.min(parseInt(req.query.limit as string) || (forPdf ? 200 : 20), limitCap);
       const search = req.query.search as string;
       const skip = (page - 1) * limit;
+      const fromRaw = req.query.from as string | undefined;
+      const toRaw = req.query.to as string | undefined;
+      const monthRaw = req.query.month as string | undefined;
 
-      const where = search ? {
-        OR: [
+      const where: Record<string, unknown> = {};
+
+      if (search) {
+        where.OR = [
           { name: { contains: search, mode: 'insensitive' as const } },
           { semana: { contains: search, mode: 'insensitive' as const } }
-        ]
-      } : {};
+        ];
+      }
+
+      if (fromRaw || toRaw) {
+        const from = fromRaw ? new Date(fromRaw) : undefined;
+        const to = toRaw ? new Date(toRaw) : undefined;
+
+        if ((fromRaw && Number.isNaN(from?.getTime())) || (toRaw && Number.isNaN(to?.getTime()))) {
+          return res.status(400).json({ message: 'Invalid date range' });
+        }
+
+        where.createdAt = {
+          ...(from ? { gte: from } : {}),
+          ...(to ? { lt: to } : {})
+        };
+      }
+
+      if (monthRaw) {
+        const allowedMonths = [
+          'Enero',
+          'Febrero',
+          'Marzo',
+          'Abril',
+          'Mayo',
+          'Junio',
+          'Julio',
+          'Agosto',
+          'Septiembre',
+          'Octubre',
+          'Noviembre',
+          'Diciembre'
+        ] as const;
+
+        if (!allowedMonths.includes(monthRaw as (typeof allowedMonths)[number])) {
+          return res.status(400).json({ message: 'Invalid month filter' });
+        }
+
+        where.month = monthRaw;
+      }
 
       const [asignaciones, total] = await Promise.all([
         prisma.asignacion.findMany({
           where,
-          skip,
+          skip: forPdf ? 0 : skip,
           take: limit,
           include: {
             presidente: { select: { id: true, fullName: true, email: true } },
@@ -67,7 +111,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               }
             }
           },
-          orderBy: { createdAt: 'desc' }
+          orderBy: { createdAt: forPdf ? 'asc' : 'desc' }
         }),
         prisma.asignacion.count({ where })
       ]);

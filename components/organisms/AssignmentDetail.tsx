@@ -82,7 +82,7 @@ export function AssignmentDetail({ assignment, onDelete }: AssignmentDetailProps
               onClick={() => router.push(`/asignaciones/${assignment.id}/edit`)}
               className="w-auto px-4 py-2"
             >
-              Edit
+              Editar
             </Button>
             {onDelete && (
               <Button
@@ -90,45 +90,15 @@ export function AssignmentDetail({ assignment, onDelete }: AssignmentDetailProps
                 onClick={onDelete}
                 className="w-auto px-4 py-2"
               >
-                Delete
+                Eliminar
               </Button>
             )}
           </div>
         </CardHeader>
 
         <CardContent className="p-0">
-          <dl className="divide-y divide-gray-200 dark:divide-neutral-700">
-            <div className="bg-gray-50 px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4 dark:bg-neutral-800/50">
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Created</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 dark:text-white">
-                {formatDate(assignment.createdAt)}
-              </dd>
-            </div>
-            
-            <div className="bg-white px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4 dark:bg-neutral-800">
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Last Updated</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 dark:text-white">
-                {formatDate(assignment.updatedAt)}
-              </dd>
-            </div>
 
-            {assignment.parent && (
-              <div className="bg-gray-50 px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4 dark:bg-neutral-800/50">
-                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Parent Assignment</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 dark:text-white">
-                  <Link 
-                    href={`/asignaciones/${assignment.parent.id}`}
-                    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                  >
-                    {assignment.parent.name} - {assignment.parent.semana}
-                  </Link>
-                </dd>
-              </div>
-            )}
-          </dl>
-
-          <div className="px-6 py-6 border-t border-gray-200 dark:border-neutral-700">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">User Assignments</h2>
+          <div className="px-6 py-6">
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {renderUserAssignment('Presidente', assignment.presidente)}
